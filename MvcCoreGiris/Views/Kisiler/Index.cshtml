@@ -4,12 +4,14 @@
 }
 
 <h1>@ViewBag.Title</h1>
+<a asp-action="Yeni" class="btn btn-dark mb-2"><i class="fas fa-plus mr-2"></i>Yeni Kişi</a>
 
 <table class="table">
     <thead>
         <tr>
             <th>Id</th>
             <th>Kişi Adı</th>
+            <th>İşlemler</th>
         </tr>
     </thead>
     <tbody>
@@ -18,7 +20,29 @@
             <tr>
                 <td>@item.Id</td>
                 <td>@item.KisiAd</td>
-            </tr>     
+                <td>
+                    <a asp-action="Duzenle" asp-route-id="@item.Id" class="btn btn-primary" ><i class="fas fa-edit"></i> </a>
+                    <a href="#" onclick="sil(@item.Id,'@item.KisiAd')"  class="btn btn-danger" ><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>
+
         }
-    </tbody>      
+    </tbody>
 </table>
+<form asp-action="Sil" name="silForm" >
+    <input type="hidden" name="id" />
+</form>
+
+@section scripts{
+    <script>
+        function sil(id, kisiAd) {
+            event.preventDefault();
+            if (confirm(kisiAd + ' adlı kişiyi silmek istediğinize emin misiniz?')) {
+                document.silForm.elements.id.value=id;
+                document.silForm.submit();
+            }
+        };
+
+    </script>
+
+}
